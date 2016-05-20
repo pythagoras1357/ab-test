@@ -9,10 +9,7 @@ It is required that a method of storing an integer value is used. The exampe use
 A basic setup:
 
 First include tests.js in your page
-// <![CDATA[
-<script src="tests.js"></script>
 
-<script>
  var testSet = function(value) {
         // add your function to store the value somewhere
     }
@@ -24,5 +21,3 @@ First include tests.js in your page
 //Tests.init(getter,setter,numTests);
 Tests.init(testGet, testSet, 2);
 
-</script>
-// ]]>
