@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+</head>
+
+<body>
+    <div id="content">
+    <a data-test-item="0" data-ga-tracking='{"eventCategory": "test-example", "eventAction": "test-item-click", "eventLabel": "test-a"}'>test A</a>
+    <a data-test-item="1" data-ga-tracking='{"eventCategory": "test-example", "eventAction": "test-item-click", "eventLabel": "test-b"}'>test B</a>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+    <script   src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <script src="../src/tests.js"></script>
+    <script>
+    // example uses GA tracking. tests not very useful if you don't track
+    <!-- Google Analytics -->
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    window.ga = ga;
+    window.ga('create', 'UA-XXXXXXX-X', 'auto');
+    <!-- End Google Analytics -->
+    // set up GA analytics events to track the tests performance
+    // items have data-ga-tracking attributes with their tracking object
+    $('body').on('click', '[data-ga-tracking]', function() {
+        var defaults = {
+            'hitType': 'event'
+        };
+        var gaObj = $(this).data('ga-tracking');
+        gaObj = $.extend(defaults, gaObj);
+        ga('send', gaObj);
+        console.log('ga-send', gaObj);
+    });
+    // example uses firebase, but any storage method could be used
+    // define your data get and set functions to pass to Tests.init
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyDHEoxwMzaBhdntPN1dPeqRkz4PC2V-2cg",
+        authDomain: "sweltering-fire-6006.firebaseapp.com",
+        databaseURL: "https://sweltering-fire-6006.firebaseio.com",
+        storageBucket: "sweltering-fire-6006.appspot.com",
+    };
+    var app_firebase = firebase.initializeApp(config);
+    // test getters and setter without firebase
+    var testSet = function(value) {
+        app_firebase.database().ref("test-example").set(value);
+    }
+    var testGet = function(callback) {
+        var value = "not set";
+        app_firebase.database().ref("test-example").once("value", function(snapshot) {
+            value =  snapshot.val();
+            callback(value);
+        }, function(errorObject) {
+            throw new Error(errorObject);
+            value = "error getting testID";
+            callback(value);
+        }); 
+    }
+    //Tests.init(getter,setter,numTests)
+    Tests.init(testGet, testSet, 2);
+    </script>
+</body>
+
+</html>
