@@ -26,22 +26,22 @@
     // set up GA analytics events to track the tests performance
     // items have data-ga-tracking attributes with their tracking object
     $('body').on('click', '[data-ga-tracking]', function() {
-        var defaults = {
-            'hitType': 'event'
-        };
-        var gaObj = $(this).data('ga-tracking');
-        gaObj = $.extend(defaults, gaObj);
-        ga('send', gaObj);
-        console.log('ga-send', gaObj);
+            var defaults = {
+                'hitType': 'event'
+            };
+            var gaObj = $(this).data('ga-tracking');
+            gaObj = $.extend(defaults, gaObj);
+            ga('send', gaObj);
+            console.log('ga-send', gaObj);
     });
     // example uses firebase, but any storage method could be used
     // define your data get and set functions to pass to Tests.init
     // Initialize Firebase
     var config = {
-        apiKey: "AIzaSyDHEoxwMzaBhdntPN1dPeqRkz4PC2V-2cg",
-        authDomain: "sweltering-fire-6006.firebaseapp.com",
-        databaseURL: "https://sweltering-fire-6006.firebaseio.com",
-        storageBucket: "sweltering-fire-6006.appspot.com",
+        apiKey: "firebase-api-key",
+        authDomain: "firebase-auth-domain",
+        databaseURL: "firebase-db",
+        storageBucket: "firbase-bucket",
     };
     var app_firebase = firebase.initializeApp(config);
     // test getters and setter without firebase
