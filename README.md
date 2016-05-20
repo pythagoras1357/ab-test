@@ -15,6 +15,10 @@ First include tests.js in your page
 
 add items to the DOM that have a data attribute assigning them to a test
 
+```
+<a data-test-item="0">test A</a>
+<a data-test-item="1">test B</a>
+```
 
 inititalize Tests
 ```javascript
@@ -26,7 +30,7 @@ inititalize Tests
     	// the callback is what is called once the value is returned
     	// defined in tests.js as Tests.generateNewTestID to generate a new id from the retrieved one
     	// function gets value then calls the callback
-    	callback(value);
+    	callback(value); //mandatory
     }
 //Tests.init(getter,setter,numTests);
 Tests.init(testGet, testSet, 2);
