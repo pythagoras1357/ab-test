@@ -15,13 +15,12 @@ var Tests = {
         this.dbGetfunction = getter;
         this.dbSetfunction = setter;
         this.numTests = numTests
-        // remove cookie check for testing
-        //if (1 == 1) {
-        if (!this.getCookie("test_id") || this.getCookie("test_id")==""){
+            // remove local storage check for testing
+            //if (1 == 1) {
+        if (localStorage.getItem("test_id") === null) {
             this.dbGetfunction(this.generateNewTestID);
-
         } else {
-            this.testID = parseInt(this.getCookie("test_id"));
+            this.testID = parseInt(localStorage.getItem("test_id"));
             this.showTestItems();
         }
     },
@@ -31,7 +30,7 @@ var Tests = {
             throw new Error("error getting testID");
         } else {
             Tests.testID = (parseInt(idFromDB) + 1) % Tests.numTests;
-            Tests.setCookie("test_id", Tests.testID, 30);
+            localStorage.setItem("test_id",Tests.testID)
             Tests.showTestItems();
         }
     },
@@ -45,23 +44,5 @@ var Tests = {
                 testItems[i].parentNode.removeChild(testItems[i]);
             }
         }
-    },
-    setCookie: function(cname, cvalue, exdays) {
-        var d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        var expires = "expires=" + d.toUTCString();
-        // make sure the cookie path is set to avoid path specific cookies
-        document.cookie = cname + "=" + cvalue + ";path=/; " + expires;
-    },
-    getCookie: function(cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') c = c.substring(1);
-            if (c.indexOf(name) != -1) return c.substring(name.length, c.length);
-        }
-        return "";
     }
 }
-    //Tests.init(getter,setter,numTests);
